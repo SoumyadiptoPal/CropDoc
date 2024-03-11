@@ -3,7 +3,7 @@ const app = express.Router();
 const { spawn } = require('child_process');
 
 /* GET Endpoint for disease prediction
- * req must contain "link" to firebase image
+ * req must contain "image_path" to firebase image
  * endpoint will send json object containing
  * predictions from model
  */
