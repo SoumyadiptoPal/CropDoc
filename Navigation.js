@@ -9,6 +9,7 @@ import DiseaseDetection from './screens/DiseaseDetection'
 import CropRecommendation from './screens/CropRecommendation'
 import NewsScreen from './screens/NewsScreen'
 import DashBoard from './screens/DashBoard'
+import ListScreen from './screens/ListScreen'
 const Stack=createStackNavigator();
 
 const screenOptions={
@@ -26,6 +27,7 @@ export const SignedInStack = () => {
         <Stack.Screen name='CropRecommendation' component={CropRecommendation}/>
         <Stack.Screen name='NewsScreen' component={NewsScreen}/>
         <Stack.Screen name='DashBoard' component={DashBoard}/>
+        <Stack.Screen name='ListScreen' component={ListScreen}/>
 
         </Stack.Navigator>
     </NavigationContainer>

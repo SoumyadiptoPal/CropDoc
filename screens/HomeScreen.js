@@ -18,7 +18,7 @@ const HomeScreen = ({navigation}) => {
     
   return (
     <View>
-        <Header navigation={navigation} user={profile} screen="Home"/>
+        <Header navigation={navigation} user={profile} screen="CROPDOC"/>
         <Home navigation={navigation}/>
     </View>
   )

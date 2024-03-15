@@ -5,10 +5,13 @@ import { auth, db } from "../firebase";
 import { doc, getDoc } from "firebase/firestore";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { signOut } from "firebase/auth";
+import SelectDropdown from "react-native-select-dropdown";
+import { MaterialIcons } from '@expo/vector-icons';
 
 const ProfileScreen = ({ navigation, route }) => {
   const [profile, setProfile] = useState(route.params.profile);
-  const [isCurrentUser,setIsCurrentUser]=useState(false)
+  const [isCurrentUser,setIsCurrentUser]=useState(false);
+  const Languages=["English","Hindi","Bengali"]
   useEffect(() => {
     if(auth.currentUser.email===route.params.profile.email)
     setIsCurrentUser(true);
@@ -23,8 +26,8 @@ signOut(auth).then(() => {
 
   }
   return (
-    <View>
-      <Header navigation={navigation} />
+    <View style={{flex:1, backgroundColor:"rgb(236,236,236)"}}>
+      <Header navigation={navigation} screen="PROFILE"/>
       <View style={styles.profile_cont1}>
         <View style={styles.profile_cont3}>
           {profile && profile.image ? (
@@ -34,7 +37,7 @@ signOut(auth).then(() => {
             />
           ) : (
             <Image
-              source={require("../assets/icon.png")}
+              source={require("../assets/profile.png")}
               style={styles.profile_image}
             />
           )}
@@ -52,6 +55,27 @@ signOut(auth).then(() => {
             </Text>
             <Text style={[styles.profile_text2, {}]}>{profile.email}</Text>
           </View>
+          <SelectDropdown
+        data={Languages}
+        defaultButtonText="Select Language"
+        onSelect={(selectedItem, index) => {
+          // setLanguage(selectedItem);
+        }}
+        buttonTextAfterSelection={(selectedItem, index) => {
+          // text represented after item is selected
+          // if data array is an array of objects then return selectedItem.property to render after item is selected
+          return selectedItem;
+        }}
+        rowTextForSelection={(item, index) => {
+          // text represented for each item in dropdown
+          // if data array is an array of objects then return item.property to represent item in dropdown
+          return item;
+        }}
+        dropdownIconPosition="right"
+        renderDropdownIcon={()=>(<MaterialIcons name="keyboard-arrow-down" size={24} color="black" />)}
+        buttonStyle={styles.inputCont}
+        buttonTextStyle={{fontSize:20}}
+      />
           {(isCurrentUser)?<View style={{alignItems:'center'}}>
           <TouchableOpacity onPress={handleLogout}>
             <Text style={styles.logout}>Logout</Text>
@@ -67,14 +91,9 @@ signOut(auth).then(() => {
 const styles = StyleSheet.create({
   profile_cont1: {
     paddingTop: 20,
-    // borderColor: "black",
-    // borderWidth: 2,
     marginTop: 50,
   },
   profile_cont2: {
-    // borderColor: "black",
-    // borderWidth: 2,
-    // margin:20,
     marginTop: 30,
   },
   profile_cont3: {
@@ -89,15 +108,15 @@ const styles = StyleSheet.create({
     borderWidth: 2,
   },
   profile_text1: {
-    marginLeft: 20,
-    marginRight: 20,
-    borderColor: "black",
-    borderWidth: 1,
+    marginHorizontal: 20,
+    marginVertical:5,
     height: 50,
     flexDirection:'row',
     alignItems:'center',
-    justifyContent:'center',
-    borderRadius:5
+    // justifyContent:'center',
+    paddingLeft:30,
+    borderRadius:25,
+    backgroundColor:"white"
   },
 
   profile_text2: {
@@ -111,6 +130,18 @@ const styles = StyleSheet.create({
     padding:10,
     margin:20,
     borderRadius:10
-  }
+  },
+  inputCont:{
+    borderRadius:25,
+    backgroundColor:"white",
+    width:340,
+    height:50,
+    paddingHorizontal:25,
+    marginBottom:20,
+    fontSize:15,
+    marginHorizontal: 20,
+    marginVertical:5,
+
+  },
 });
 export default ProfileScreen;
