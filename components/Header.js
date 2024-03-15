@@ -4,16 +4,20 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { auth, db } from "../firebase";
 import { doc, getDoc } from "firebase/firestore";
 import { MaterialIcons } from '@expo/vector-icons';
+import { useGlobalState } from './../GlobalContextState';
+import { languages } from "../languages";
 
 const Header = ({ navigation, user, screen }) => {
   const [profile, setProfile] = useState(user);
+  const { state } = useGlobalState();
+
   useEffect(() => {
     setProfile(user);
   }, [user]);
 
   return (
     <View style={[styles.header_cont1]}>
-      {navigation && screen != "CROPDOC" && (
+      {navigation && screen != languages[state.globalVariable].text1 && (
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <MaterialIcons name="arrow-back-ios" size={24} color="white" />
         </TouchableOpacity>
@@ -26,7 +30,7 @@ const Header = ({ navigation, user, screen }) => {
       >
         <Text style={styles.header_text}>{screen}</Text>
 
-        {screen === "CROPDOC" ? (
+        {screen === languages[state.globalVariable].text1 ? (
           <TouchableOpacity
             onPress={() => {
               navigation.push("ProfileScreen", { profile: profile });

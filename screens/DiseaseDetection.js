@@ -16,8 +16,11 @@ import Header from "../components/Header";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
+import { useGlobalState } from "./../GlobalContextState";
+import { languages } from "../languages";
 
 const DiseaseDetection = ({ navigation }) => {
+  const { state } = useGlobalState();
   const [selectedImage, setSelectedImage] = useState("");
   const [permission, requestPermission] = ImagePicker.useCameraPermissions();
   const [disease, setDisease] = useState();
@@ -74,7 +77,7 @@ const DiseaseDetection = ({ navigation }) => {
 
   return (
     <View style={{ flex: 1 }}>
-      <Header screen="DISEASE IDENTIFICATION" navigation={navigation} />
+      <Header screen={languages[state.globalVariable].text11} navigation={navigation} />
       <ScrollView style={style.cont1}>
         <View style={style.cont2}>
           {selectedImage ? (

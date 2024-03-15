@@ -9,8 +9,11 @@ import {
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import Header from "../components/Header";
+import { useGlobalState } from "./../GlobalContextState";
+import { languages } from "../languages";
 
 const NewsScreen = ({ navigation }) => {
+  const { state } = useGlobalState();
   const [news, setNews] = useState([
     {
       article_id: "80adb3be92ec0e39d268a8ed44fdbd39",
@@ -264,12 +267,16 @@ const NewsScreen = ({ navigation }) => {
 
   useEffect(() => {
     const fetchData = async (query) => {
-      const params = {
+      let params = {
         apikey: apiKey,
         q: query,
         language: "en",
         country: "us",
       };
+      if(state.globalVariable !== "English")
+      {
+        params.language="hi"
+      }
 
       const queryString = Object.keys(params)
         .map(
@@ -298,7 +305,7 @@ const NewsScreen = ({ navigation }) => {
 
   return (
     <View style={{ flex: 1 }}>
-      <Header screen="AGRICULTURE NEWS" navigation={navigation} />
+      <Header screen={languages[state.globalVariable].text24} navigation={navigation} />
       <ScrollView style={styles.cont1}>
         {news &&
           news.map((data, index) => <NewsItem data={data} key={index} />)}

@@ -11,8 +11,11 @@ import React, { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Header from "../components/Header";
 import { AntDesign } from "@expo/vector-icons";
+import { useGlobalState } from "./../GlobalContextState";
+import { languages } from "../languages";
 
 const ListScreen = ({ navigation, route }) => {
+  const { state } = useGlobalState();
   const [item, setItem] = useState(route.params.itemData);
   const [lists, setLists] = useState(item.checklists);
   const [openModal, setOpenModal] = useState(false);
@@ -84,12 +87,12 @@ const ListScreen = ({ navigation, route }) => {
     <View style={{ flex: 1, backgroundColor: "rgb(236,236,236)" }}>
       <Header screen={item.Title} navigation={navigation} />
       <View style={styles.cont3}>
-        <Text>Number of plantations:{item.Number}</Text>
-        <Text>Plantation date:{item.Planting_date}</Text>
-        <Text>Weeks to harvest:{item.weeks_to_harvest}</Text>
+        <Text>{languages[state.globalVariable].text29}:{item.Number}</Text>
+        <Text>{languages[state.globalVariable].text30}:{item.Planting_date}</Text>
+        <Text>{languages[state.globalVariable].text31}:{item.weeks_to_harvest}</Text>
       </View>
       <Text style={{fontSize:18, fontWeight:"700",marginLeft:15,marginTop:15}}>
-        Your Lists
+      {languages[state.globalVariable].text33}
       </Text>
       <ScrollView>
         {lists && lists.length > 0 ? (
@@ -102,13 +105,13 @@ const ListScreen = ({ navigation, route }) => {
             />
           ))
         ) : (
-          <Text>Nothing to display</Text>
+          <Text>{languages[state.globalVariable].text52}</Text>
         )}
         <Text></Text>
       </ScrollView>
       <TouchableOpacity onPress={() => setOpenModal(true)} style={styles.cont2}>
         <View style={{ flexDirection: "row", alignItems: "center" }}>
-          <Text style={styles.buttonText}>Add</Text>
+          <Text style={styles.buttonText}>{languages[state.globalVariable].text26}</Text>
           <AntDesign name="plus" size={24} color="white" />
         </View>
       </TouchableOpacity>
@@ -123,10 +126,10 @@ const ListScreen = ({ navigation, route }) => {
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
           <Text style={{ fontSize: 20, fontWeight: "800" }}>
-              Create New Entry
+          {languages[state.globalVariable].text34}
             </Text>
             <TextInput
-              placeholder="Title"
+              placeholder={languages[state.globalVariable].text28}
               placeholderTextColor="#444"
               autoCapitalize="none"
               onChangeText={(text) => {
@@ -136,7 +139,7 @@ const ListScreen = ({ navigation, route }) => {
               style={styles.inputCont}
             />
             <TextInput
-              placeholder="Description"
+              placeholder={languages[state.globalVariable].text35}
               placeholderTextColor="#444"
               autoCapitalize="none"
               onChangeText={(text) => {
@@ -147,10 +150,10 @@ const ListScreen = ({ navigation, route }) => {
             />
             <View style={{ flexDirection: "row", alignItems: "center" }}>
             <TouchableOpacity onPress={handleCloseModal} style={[styles.button,{backgroundColor:"grey"}]}>
-              <Text style={styles.buttonText}>Close</Text>
+              <Text style={styles.buttonText}>{languages[state.globalVariable].text32}</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={addLists} style={[styles.button,{backgroundColor:"#43C89C"}]}>
-              <Text style={styles.buttonText}>Add</Text>
+              <Text style={styles.buttonText}>{languages[state.globalVariable].text26}</Text>
             </TouchableOpacity>
             </View>
           </View>

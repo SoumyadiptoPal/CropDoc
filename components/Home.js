@@ -1,10 +1,12 @@
 import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
 import React from "react";
-
+import { useGlobalState } from './../GlobalContextState';
+import { languages } from "../languages";
 const Home = ({ navigation }) => {
+  const { state } = useGlobalState();
   return (
     <View style={styles.cont1}>
-      <Text style={styles.text1}>Welcome!</Text>
+      <Text style={styles.text1}>{languages[state.globalVariable].text2}</Text>
       <TouchableOpacity
         style={{ width: "100%" }}
         onPress={() => {
@@ -27,8 +29,8 @@ const Home = ({ navigation }) => {
               flexGrow: 2,
             }}
           >
-            <Text style={styles.text2}>Disease</Text>
-            <Text style={styles.text2}>Identification</Text>
+            <Text style={styles.text2}>{languages[state.globalVariable].text3}</Text>
+            <Text style={styles.text2}>{languages[state.globalVariable].text4}</Text>
           </View>
         </View>
       </TouchableOpacity>
@@ -54,8 +56,8 @@ const Home = ({ navigation }) => {
               flexGrow: 2,
             }}
           >
-            <Text style={styles.text2}>Crop</Text>
-            <Text style={styles.text2}>Recommendation</Text>
+            <Text style={styles.text2}>{languages[state.globalVariable].text5}</Text>
+            <Text style={styles.text2}>{languages[state.globalVariable].text6}</Text>
           </View>
         </View>
       </TouchableOpacity>
@@ -81,8 +83,8 @@ const Home = ({ navigation }) => {
               flexGrow: 2,
             }}
           >
-            <Text style={styles.text2}>Agriculture</Text>
-            <Text style={styles.text2}>News</Text>
+            <Text style={styles.text2}>{languages[state.globalVariable].text7}</Text>
+            <Text style={styles.text2}>{languages[state.globalVariable].text8}</Text>
           </View>
         </View>
       </TouchableOpacity>
@@ -108,8 +110,8 @@ const Home = ({ navigation }) => {
               flexGrow: 2,
             }}
           >
-            <Text style={styles.text2}>Activity</Text>
-            <Text style={styles.text2}>DashBoard</Text>
+            <Text style={styles.text2}>{languages[state.globalVariable].text9}</Text>
+            <Text style={styles.text2}>{languages[state.globalVariable].text10}</Text>
           </View>
         </View>
       </TouchableOpacity>

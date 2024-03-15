@@ -11,8 +11,11 @@ import React, { useEffect, useState } from "react";
 import Header from "../components/Header";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AntDesign } from "@expo/vector-icons";
+import { useGlobalState } from "./../GlobalContextState";
+import { languages } from "../languages";
 
 const DashBoard = ({ navigation }) => {
+  const { state } = useGlobalState();
   const [lists, setLists] = useState();
   const [newList, setNewList] = useState({
     id: 0,
@@ -64,7 +67,7 @@ const DashBoard = ({ navigation }) => {
   };
   return (
     <View style={{ flex: 1, backgroundColor: "rgb(236,236,236)" }}>
-      <Header screen="ACTIVITY DASHBOARD" navigation={navigation} />
+      <Header screen={languages[state.globalVariable].text25} navigation={navigation} />
       <ScrollView>
         {lists ? (
           <>
@@ -78,7 +81,7 @@ const DashBoard = ({ navigation }) => {
             ))}
           </>
         ) : (
-          <Text>Nothing to display</Text>
+          <Text>{languages[state.globalVariable].text52}</Text>
         )}
         <Text>{}</Text>
       </ScrollView>
@@ -90,7 +93,7 @@ const DashBoard = ({ navigation }) => {
           <Text
             style={styles.buttonText}
           >
-            Add
+            {languages[state.globalVariable].text26}
           </Text>
           <AntDesign name="plus" size={24} color="white" />
         </View>
@@ -106,10 +109,10 @@ const DashBoard = ({ navigation }) => {
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
             <Text style={{ fontSize: 20, fontWeight: "800" }}>
-              Create New Task
+            {languages[state.globalVariable].text27}
             </Text>
             <TextInput
-              placeholder="Title"
+              placeholder={languages[state.globalVariable].text28}
               placeholderTextColor="#444"
               autoCapitalize="none"
               onChangeText={(text) => {
@@ -119,7 +122,7 @@ const DashBoard = ({ navigation }) => {
               style={styles.inputCont}
             />
             <TextInput
-              placeholder="Number"
+              placeholder={languages[state.globalVariable].text29}
               placeholderTextColor="#444"
               autoCapitalize="none"
               keyboardType="numeric"
@@ -130,7 +133,7 @@ const DashBoard = ({ navigation }) => {
               style={styles.inputCont}
             />
             <TextInput
-              placeholder="Plantation date"
+              placeholder={languages[state.globalVariable].text30}
               placeholderTextColor="#444"
               autoCapitalize="none"
               keyboardType="numeric"
@@ -141,7 +144,7 @@ const DashBoard = ({ navigation }) => {
               style={styles.inputCont}
             />
             <TextInput
-              placeholder="Number of weeks to harvest"
+              placeholder={languages[state.globalVariable].text31}
               placeholderTextColor="#444"
               autoCapitalize="none"
               onChangeText={(text) => {
@@ -155,10 +158,10 @@ const DashBoard = ({ navigation }) => {
                 onPress={handleCloseModal}
                 style={[styles.button,{backgroundColor:"grey"}]}
               >
-                <Text style={styles.buttonText}>Close</Text>
+                <Text style={styles.buttonText}>{languages[state.globalVariable].text32}</Text>
               </TouchableOpacity>
               <TouchableOpacity onPress={addLists} style={[styles.button,{backgroundColor:"#43C89C"}]}>
-                <Text style={styles.buttonText}>Add</Text>
+                <Text style={styles.buttonText}>{languages[state.globalVariable].text26}</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -169,6 +172,7 @@ const DashBoard = ({ navigation }) => {
 };
 
 const ListItem = ({ data, deleteLists, navigation }) => {
+  const { state } = useGlobalState();
   const handleNavigate = () => {
     navigation.push("ListScreen", { itemData: data });
   };
@@ -190,9 +194,9 @@ const ListItem = ({ data, deleteLists, navigation }) => {
             </Text>
           </TouchableOpacity>
         </View>
-        <Text>Number of plantations:{data.Number}</Text>
-        <Text>Plantation date:{data.Planting_date}</Text>
-        <Text>Weeks to harvest:{data.weeks_to_harvest}</Text>
+        <Text>{languages[state.globalVariable].text29}:{data.Number}</Text>
+        <Text>{languages[state.globalVariable].text30}:{data.Planting_date}</Text>
+        <Text>{languages[state.globalVariable].text31}:{data.weeks_to_harvest}</Text>
       </View>
     </TouchableOpacity>
   );
