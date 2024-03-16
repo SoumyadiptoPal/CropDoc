@@ -6,6 +6,7 @@ import {
   Image,
   StyleSheet,
   ScrollView,
+  ActivityIndicator,
 } from "react-native";
 import React, { useState } from "react";
 import SelectDropdown from "react-native-select-dropdown";
@@ -25,14 +26,41 @@ const CropRecommendation = ({ navigation }) => {
   const [seasonData, setSeasonsData] = useState("");
   const seasons = ["Summer", "Winter", "Monsoon", "Autumn"];
   const [predictedCrop, setPredictedCrop] = useState();
+  const [isLoading,setIsLoading]=useState(false);
   const handlePredict = async () => {
     //Call GetPrediction
+    setIsLoading(true);
+    try {
+      const body = {
+        N: data["Nitogen Content of soil"],
+        P: data["Phosphorus Content of soil"],
+        K: data["Potassium Content of soil"],
+        ph: data["pH Value of soil"],
+        humidity: "74",
+        temp: "25.6",
+        rainfall: "104"
+      };
+      const response = await fetch('http://192.168.29.61:8082/recommend/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(body),
+      });
+      const responseData = await response.json();
+      console.log(responseData)
+      setPredictedCrop({
+        Name: responseData["prediction"],
+        Image_url:
+          "https://assets.thehansindia.com/h-upload/2023/10/22/1391621-jagadish-reddy.webp",
+      });
+      setIsLoading(false);
+    } catch (error) {
+      console.error('Error:', error);
+      throw error;
+    }
 
-    setPredictedCrop({
-      Name: "Wheat",
-      Image_url:
-        "https://assets.thehansindia.com/h-upload/2023/10/22/1391621-jagadish-reddy.webp",
-    });
+    
   };
 
   const getPlaceholder = (text) => {
@@ -102,7 +130,9 @@ const CropRecommendation = ({ navigation }) => {
             <Text style={style.buttonText}>{languages[state.globalVariable].text22}</Text>
           </TouchableOpacity>
           <View></View>
-          {predictedCrop && (
+          {
+            (!isLoading)?<>
+            {predictedCrop && (
             <View>
               <View style={style.cont2}>
                 <Image
@@ -122,16 +152,21 @@ const CropRecommendation = ({ navigation }) => {
                     {predictedCrop.Name}
                   </Text>
                 </View>
-                <View>
+                {/* <View>
                   <Image
                     source={{ uri: predictedCrop.Image_url }}
                     style={{ width: 300, height: 280 }}
                     resizeMode="cover"
                   />
-                </View>
+                </View> */}
               </View>
             </View>
           )}
+            </>:<View>
+              <ActivityIndicator size="large"/>
+            </View>
+          }
+          
         </View>
       </ScrollView>
     </View>
